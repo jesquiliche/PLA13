@@ -9,6 +9,7 @@ try {
             consultaArtistas();
             break;
         case 'A':
+
             altaArtista();
             break;
         case 'M':
@@ -25,7 +26,7 @@ try {
         'codigo'=>strval($e->getCode()),
         'error'=>$e->getMessage()
     ];
-    echo json_encode($repuesta);
+    echo json_encode($respuesta);
 }
      
 
@@ -38,6 +39,7 @@ function consultaArtistas():bool{
             'codigo'=>'00',
             'datos'=>$datos
         ];
+        header(':', true, 201);
         echo json_encode($respuesta);
         return true;
         
@@ -61,6 +63,7 @@ function altaArtista():bool{
                 'codigo'=>'11',
                 'errores'=>$errores
             ];
+            header(':', true, 422);
             echo json_encode($respuesta);
             return false;
         }
@@ -68,6 +71,7 @@ function altaArtista():bool{
         $artistas=new Artista();
         $artistas->setExclude('peticion');
         $artistas->Create($_POST);
+        header(':', true, 201);
         $respuesta=[
             'codigo'=>'00',
             'respuesta'=>'Alta efectuada'
@@ -123,7 +127,7 @@ function borrarArtista():bool{
     try{
         $artistas=new Artista();
         $artistas->setExclude('peticion');
-        $artistas->Update($_POST);
+        $artistas->Destroy($_POST['idartista']);
         echo json_encode($artistas->FindAll());
         $respuesta=[
             'codigo'=>'00',
