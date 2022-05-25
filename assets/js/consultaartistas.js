@@ -1,14 +1,11 @@
 const consultaArtistas=async ()=>{
-    
-   
-    
-   
-    
-    const url = './servicios/artistaControler.php'
+    alert("consulta Artistas")
+    const url = '../servicios/artistascontroller.php'
     const tabla=document.querySelector('#listaartistas')
+   
     
     const datos=new FormData();
-    datos.append('peticion', 'A')
+    datos.append('peticion', 'T')
 
     let param = {
         method: 'POST', 
@@ -18,10 +15,11 @@ const consultaArtistas=async ()=>{
     const data=await fetch(url, param)
     
     const response=await data.json()
-    const paginas=response.paginas
+    console.log(response)
+    
 
     tabla.innerHTML="";
-    response.pacientes.forEach(e => {
+    response.forEach(e => {
         let fila = tabla.insertRow();
         fila.insertCell().innerHTML = e.nombre;
         fila.insertCell().innerHTML = e.nacionalidad;
