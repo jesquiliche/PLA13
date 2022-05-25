@@ -1,14 +1,17 @@
 <?php
+
+use Album as GlobalAlbum;
+
 require_once '../models/Artistas.php';
 require_once 'Icontroller.php';
 
-class ArtistaController implements iController
+class AlbumController implements iController
 {
     public static function consulta(): bool
     {
         try {
-            $albums = new Album();
-            $datos = $albums->FindAll();
+            $artistas = new Artista();
+            $datos = $artistas->FindAll();
             $respuesta = [
                 'codigo' => '00',
                 'datos' => $datos,
@@ -43,7 +46,7 @@ class ArtistaController implements iController
                 return false;
             }
 
-            $artistas = new Album();
+            $artistas = new Artista();
             $artistas->setExclude('peticion');
             $artistas->Create($_POST);
             header(':', true, 201);
@@ -77,7 +80,7 @@ class ArtistaController implements iController
                 echo json_encode($respuesta);
                 return false;
             }
-            $artistas = new Album();
+            $artistas = new Artista();
             $artistas->setExclude('peticion');
             $artistas->Update($_POST);
             $respuesta = [
@@ -102,10 +105,10 @@ class ArtistaController implements iController
     public static function borrar(): bool
     {
         try {
-            $albums = new Album();
-            $albums->setExclude('peticion');
-            $albums->Destroy($_POST['idalbum']);
-            echo json_encode($albums->FindAll());
+            $artistas = new Artista();
+            $artistas->setExclude('peticion');
+            $artistas->Destroy($_POST['idartista']);
+            echo json_encode($artistas->FindAll());
             $respuesta = [
                 'codigo' => '00',
                 'respuesta' => 'Baja efectuada',
@@ -126,21 +129,29 @@ class ArtistaController implements iController
 
     public static function validarDatos(): array
     {
-        $nombre = null;
+        $titulo = null;
         $errores = array();
 
-        if (isset($_POST['nombre'])) {
-            $nombre = trim($_POST['nombre']);
-            if (strlen($nombre) == 0) {
-                array_push($errores, "El nombre es requerido");
+        if (isset($_POST['titulo'])) {
+            $titulo = trim($_POST['nombre']);
+            if (strlen($titulo) == 0) {
+                array_push($errores, "El título es requerido");
             }
         }
 
-        $nacionalidad = null;
-        if (isset($_POST['nacionalidad'])) {
-            $nacionalidad = trim($_POST['nacionalidad']);
-            if (strlen($nacionalidad) == 0) {
+        $year = null;
+        if (isset($_POST['year'])) {
+            $year = trim($_POST['year']);
+            if (strlen($year) == 0) {
                 array_push($errores, "La nacidonalidad es requerida");
+            }
+        }
+
+        $idgenero = null;
+        if (isset($_POST['idgenero'])) {
+            $year = trim($_POST['idgenero']);
+            if (strlen($year) == 0) {
+                array_push($errores, "El genro es requerido");
             }
         }
         if (count($errores) > 0) {
@@ -160,17 +171,16 @@ try {
     switch ($_POST['peticion']) {
 
         case 'T':
-            ArtistaController::consulta();
+            AlbumController::consulta();
             break;
         case 'A':
-
-            ArtistaController::alta();
+            AlbumController::alta();
             break;
         case 'M':
-            ArtistaController::modificar();
+            AlbumController::modificar();
             break;
         case 'B':
-            ArtistaController::borrar();
+            AlbumController::borrar();
             break;
         default:
             throw new Exception("Petición obligatoria", 10);
