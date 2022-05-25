@@ -1,31 +1,55 @@
 <?php 
 require_once '../models/Artistas.php';
 
-switch($_POST['peticion']){
 
-    case 'T':
-        consultaArtistas();
-        break;
-    case 'A':
-        altaArtista();
-        break;
-    case 'M':
-        modificaArtista();
-        break;
-    case 'B':
-        borrarArtista();
-        break;
-     
-    
+try {
+    switch($_POST['peticion']){
 
-
-
+        case 'T':
+            consultaArtistas();
+            break;
+        case 'A':
+            altaArtista();
+            break;
+        case 'M':
+            modificaArtista();
+            break;
+        case 'B':
+            borrarArtista();
+            break;
+        default:
+            throw new Exception("Petición obligatoria", 10);
+        }
+}catch(Exception $e){
+    $respuesta=[
+        'codigo'=>strval($e->getCode()),
+        'error'=>$e->getMessage()
+    ];
+    echo json_encode($repuesta);
 }
+     
+
 
 function consultaArtistas():bool{
-    $artistas=new Artista();
-    echo json_encode($artistas->FindAll());
-    return true;
+    try {
+        $artistas=new Artista();
+        $datos=$artistas->FindAll();
+        $respuesta=[
+            'codigo'=>'00',
+            'datos'=>$datos
+        ];
+        echo json_encode($respuesta);
+        return true;
+        
+    } catch (Exception $e) {
+        $respuesta=[
+            'codigo'=>strval($e->getCode()),
+            'error'=>$e->getMessage()
+        ];
+        echo json_encode($respuesta);
+        
+    }
+    
 }
 
 function altaArtista():bool{
