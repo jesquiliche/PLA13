@@ -62,7 +62,7 @@ abstract class BaseDao implements ICrudDAO{
             $sqlValues=substr($sqlValues, 0, -1).") ";
             $smt=$this->con->prepare($sqlInsert.$sqlValues);
             $smt->execute($valores);
-            return $smt->lastInsertId();;
+            return $smt->rowCount();
          
         } catch(Exception $e){
             $this->con=null;
