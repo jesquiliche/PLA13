@@ -54,12 +54,33 @@ function consultaArtistas():bool{
 
 function altaArtista():bool{
     try{
+    
+        $errores=validaDatos();
+        if(count($errores)>0){
+            $respuesta=[
+                'codigo'=>'11',
+                'errores'=>$errores
+            ];
+            echo json_encode($respuesta);
+            return false;
+        }
+        
         $artistas=new Artista();
         $artistas->setExclude('peticion');
         $artistas->Create($_POST);
-        echo json_encode($artistas->FindAll());
+        $respuesta=[
+            'codigo'=>'00',
+            'respuesta'=>'Alta efectuada'
+        ];
+        echo json_encode($respuesta);
+        return false;
+        
     }catch(Exception $e){
-        echo $e->getMessage;
+        $respuesta=[
+            'codigo'=>strval($e->getCode()),
+            'error'=>$e->getMessage()
+        ];
+        echo json_encode($respuesta);
     }
    
     return true;
@@ -67,12 +88,32 @@ function altaArtista():bool{
 
 function modificaArtista():bool{
     try{
+        $errores=validaDatos();
+        if(count($errores)>0){
+            $respuesta=[
+                'codigo'=>'11',
+                'errores'=>$errores
+            ];
+            echo json_encode($respuesta);
+            return false;
+        }
         $artistas=new Artista();
         $artistas->setExclude('peticion');
         $artistas->Update($_POST);
-        echo json_encode($artistas->FindAll());
+        $respuesta=[
+            'codigo'=>'00',
+            'respuesta'=>'Modficación efectuada'
+        ];
+        echo json_encode($respuesta);
+        return true;
+       
     }catch(Exception $e){
-        echo $e->getMessage;
+        $respuesta=[
+            'codigo'=>strval($e->getCode()),
+            'error'=>$e->getMessage()
+        ];
+        echo json_encode($respuesta);
+        return false;
     }
    
     return true;
@@ -84,9 +125,49 @@ function borrarArtista():bool{
         $artistas->setExclude('peticion');
         $artistas->Update($_POST);
         echo json_encode($artistas->FindAll());
+        $respuesta=[
+            'codigo'=>'00',
+            'respuesta'=>'Baja efectuada'
+        ];
+        echo json_encode($respuesta);
+        return true;
     }catch(Exception $e){
-        echo $e->getMessage;
+        $respuesta=[
+            'codigo'=>strval($e->getCode()),
+            'error'=>$e->getMessage()
+        ];
+        echo json_encode($respuesta);
+        return false;
     }
    
     return true;
+}
+
+function validaDatos():array{
+    $nombre=null;
+    $errores=array();
+
+    if(isset($_POST['nombre'])){
+        $nombre=trim($_POST['nombre']);
+        if(strlen($nombre)==0){
+            array_push($errores,"El nombre es requerido");
+        }
+    }
+    
+    $nacionalidad=null;
+    if(isset($_POST['nacionalidad'])){
+        $nacionalidad=trim($_POST['nacionalidad']);
+        if(strlen($nacionalidad)==0){
+            array_push($errores,"La nacidonalidad es requerida");
+        }
+    }
+    if(count($errores)>0){
+        $respuesta=[
+            'codigo'=>'11',
+            'errores'=>$errores
+        ];
+        return $errores;
+    }
+    return $errores;
+
 }
