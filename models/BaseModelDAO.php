@@ -50,18 +50,18 @@ abstract class BaseDao implements ICrudDAO{
             //Leer lista de campos del Array
             foreach($obj as $key=>$valor){
                 if($key!==$this->exclude){
-                    $valor= filter_var($valor,FILTER_SANITIZE_ADD_SLASHES);
+                    $valor= trim(filter_var($valor,FILTER_SANITIZE_ADD_SLASHES));
                     $sqlInsert.="$key,";
                     $valores[]=trim($valor);
-                    $sqlValues.="?,";
+                    $sqlValues.="'$valor',";
                 }
             }
             //Quitar última coma de las cadenas y cerrarlas con parentesis
          
             $sqlInsert=substr($sqlInsert, 0, -1).") \n";
             $sqlValues=substr($sqlValues, 0, -1).") ";
-            $smt=$this->con->prepare($sqlInsert.$sqlValues);
-            $smt->execute($valores);
+          //  $smt=$this->con->prepare($sqlInsert.$sqlValues);
+            $smt=$this->con->query($sqlInsert.$sqlValues);
             return $smt->rowCount();
          
         } catch(Exception $e){

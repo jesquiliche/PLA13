@@ -2,7 +2,7 @@
 
 use Album as GlobalAlbum;
 
-require_once '../models/Artistas.php';
+require_once '../models/Albums.php';
 require_once 'Icontroller.php';
 
 class AlbumController implements iController
@@ -10,8 +10,8 @@ class AlbumController implements iController
     public static function consulta(): bool
     {
         try {
-            $artistas = new Artista();
-            $datos = $artistas->FindAll();
+            $album = new Album();
+            $datos = $album->FindAll();
             $respuesta = [
                 'codigo' => '00',
                 'datos' => $datos,
@@ -46,11 +46,11 @@ class AlbumController implements iController
                 return false;
             }
 
-            $artistas = new Artista();
-            $artistas->setExclude('peticion');
+            $album = new Album();
+            $album->setExclude('peticion');
             $datos['idgenero']=intval($_POST['idgenero']);
             $datos['year']=intval($_POST['year']);
-            $artistas->Create($datos);
+            $album->Create($datos);
             header(':', true, 201);
             $respuesta = [
                 'codigo' => '00',
@@ -82,9 +82,9 @@ class AlbumController implements iController
                 echo json_encode($respuesta);
                 return false;
             }
-            $artistas = new Artista();
-            $artistas->setExclude('peticion');
-            $artistas->Update($_POST);
+            $album = new Artista();
+            $album->setExclude('peticion');
+            $album->Update($_POST);
             $respuesta = [
                 'codigo' => '00',
                 'respuesta' => 'Modficación efectuada',
@@ -107,10 +107,10 @@ class AlbumController implements iController
     public static function borrar(): bool
     {
         try {
-            $artistas = new Artista();
-            $artistas->setExclude('peticion');
-            $artistas->Destroy($_POST['idartista']);
-            echo json_encode($artistas->FindAll());
+            $album = new Artista();
+            $album->setExclude('peticion');
+            $album->Destroy($_POST['idartista']);
+            echo json_encode($album->FindAll());
             $respuesta = [
                 'codigo' => '00',
                 'respuesta' => 'Baja efectuada',
