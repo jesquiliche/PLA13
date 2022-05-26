@@ -82,7 +82,7 @@ class AlbumController implements iController
                 echo json_encode($respuesta);
                 return false;
             }
-            $album = new Artista();
+            $album = new Album();
             $album->setExclude('peticion');
             $album->Update($_POST);
             $respuesta = [
@@ -107,7 +107,7 @@ class AlbumController implements iController
     public static function borrar(): bool
     {
         try {
-            $album = new Artista();
+            $album = new Album();
             $album->setExclude('peticion');
             $album->Destroy($_POST['idartista']);
             echo json_encode($album->FindAll());
