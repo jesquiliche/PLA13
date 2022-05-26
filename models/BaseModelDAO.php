@@ -101,8 +101,7 @@ abstract class BaseDao implements ICrudDAO{
             $sqlUpdate.= " WHERE $this->primaryKey=".$obj[$this->primaryKey];
             
             $stmt=$this->con->prepare($sqlUpdate);
-            $stmt->execute($valores);
-            return $stmt->rowCount();
+            return $stmt->execute($valores);
 
         }catch(Exception $e){
             $this->con=null;
@@ -136,8 +135,7 @@ abstract class BaseDao implements ICrudDAO{
     public function Destroy($id):int{
         $this->con=DBConnection::connect();
         $stmt = $this->con->prepare("DELETE FROM $this->table WHERE $this->primaryKey=$id");
-        $stmt->execute();
-        return $stmt->rowCount();
+        return $stmt->execute();
     }
 
     public function RunQuery(string $sql):array{

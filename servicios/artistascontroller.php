@@ -1,5 +1,5 @@
 <?php
-require_once '../models/Artistas.php';
+require_once '../models/Albums.php';
 require_once 'Icontroller.php';
 
 class ArtistaController implements iController
@@ -13,7 +13,7 @@ class ArtistaController implements iController
                 'codigo' => '00',
                 'datos' => $datos,
             ];
-            header(':', true, 400);
+            header(':', true, 200);
             echo json_encode($respuesta);
             return true;
 
@@ -28,7 +28,7 @@ class ArtistaController implements iController
 
     }
 
-    public static function alta(): bool
+    public static function alta($datos): bool
     {
         try {
 
@@ -65,7 +65,7 @@ class ArtistaController implements iController
         return true;
     }
 
-    public static function modificar(): bool
+    public static function modificar($datos): bool
     {
         try {
             $errores = self::validarDatos();
@@ -159,15 +159,15 @@ class ArtistaController implements iController
 try {
     switch ($_POST['peticion']) {
 
-        case 'T':
-            ArtistaController::consulta();
+        case 'C':
+            ArtistaController::consulta($_POST);
             break;
         case 'A':
 
-            ArtistaController::alta();
+            ArtistaController::alta($_POST);
             break;
         case 'M':
-            ArtistaController::modificar();
+            ArtistaController::modificar($_POST);
             break;
         case 'B':
             ArtistaController::borrar();

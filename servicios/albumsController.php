@@ -31,7 +31,7 @@ class AlbumController implements iController
 
     }
 
-    public static function alta(): bool
+    public static function alta($datos): bool
     {
         try {
 
@@ -48,7 +48,9 @@ class AlbumController implements iController
 
             $artistas = new Artista();
             $artistas->setExclude('peticion');
-            $artistas->Create($_POST);
+            $datos['idgenero']=intval($_POST['idgenero']);
+            $datos['year']=intval($_POST['year']);
+            $artistas->Create($datos);
             header(':', true, 201);
             $respuesta = [
                 'codigo' => '00',
@@ -60,7 +62,7 @@ class AlbumController implements iController
         } catch (Exception $e) {
             $respuesta = [
                 'codigo' => strval($e->getCode()),
-                'error' => $e->getMessage(),
+                'error' => $e->getMessage()
             ];
             echo json_encode($respuesta);
         }
@@ -68,7 +70,7 @@ class AlbumController implements iController
         return true;
     }
 
-    public static function modificar(): bool
+    public static function modificar($datos): bool
     {
         try {
             $errores = self::validarDatos();
@@ -133,7 +135,7 @@ class AlbumController implements iController
         $errores = array();
 
         if (isset($_POST['titulo'])) {
-            $titulo = trim($_POST['nombre']);
+            $titulo = trim($_POST['titulo']);
             if (strlen($titulo) == 0) {
                 array_push($errores, "El título es requerido");
             }
@@ -143,15 +145,22 @@ class AlbumController implements iController
         if (isset($_POST['year'])) {
             $year = trim($_POST['year']);
             if (strlen($year) == 0) {
-                array_push($errores, "La nacidonalidad es requerida");
+                array_push($errores, "El año es requerida");
+            } else {
+                $year=intval($year);
+                if($year==0) array_push($errores, "El año debe ser númerico");
             }
         }
 
         $idgenero = null;
         if (isset($_POST['idgenero'])) {
-            $year = trim($_POST['idgenero']);
-            if (strlen($year) == 0) {
-                array_push($errores, "El genro es requerido");
+            $idgenero = trim($_POST['idgenero']);
+            if (strlen($idgenero) == 0) {
+                array_push($errores, "El genero es requerido");
+            } else {
+                $idgenero=intval($idgenero);
+                if($idgenero==0) array_push($errores, "idgenero debe ser númerico");
+
             }
         }
         if (count($errores) > 0) {
@@ -174,10 +183,10 @@ try {
             AlbumController::consulta();
             break;
         case 'A':
-            AlbumController::alta();
+            AlbumController::alta($_POST);
             break;
         case 'M':
-            AlbumController::modificar();
+            AlbumController::modificar($_POST);
             break;
         case 'B':
             AlbumController::borrar();
