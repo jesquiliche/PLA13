@@ -1,5 +1,5 @@
 <?php
-require_once '../models/Albums.php';
+require_once '../models/Artistas.php';
 require_once 'Icontroller.php';
 
 class ArtistaController implements iController
@@ -7,13 +7,13 @@ class ArtistaController implements iController
     public static function consulta(): bool
     {
         try {
-            $albums = new Album();
-            $datos = $albums->FindAll();
+            $artista = new Artista();
+            $datos = $artista->FindAll();
             $respuesta = [
                 'codigo' => '00',
                 'datos' => $datos,
             ];
-            header(':', true, 200);
+        
             echo json_encode($respuesta);
             return true;
 
@@ -22,6 +22,7 @@ class ArtistaController implements iController
                 'codigo' => strval($e->getCode()),
                 'error' => $e->getMessage(),
             ];
+            
             echo json_encode($respuesta);
 
         }
@@ -38,15 +39,15 @@ class ArtistaController implements iController
                     'codigo' => '11',
                     'errores' => $errores,
                 ];
-                header(':', true, 400);
+            
                 echo json_encode($respuesta);
                 return false;
             }
 
-            $artistas = new Album();
+            $artistas = new Artista();
             $artistas->setExclude('peticion');
             $artistas->Create($_POST);
-            header(':', true, 201);
+        
             $respuesta = [
                 'codigo' => '00',
                 'respuesta' => 'Alta efectuada',
@@ -55,11 +56,20 @@ class ArtistaController implements iController
             return false;
 
         } catch (Exception $e) {
-            $respuesta = [
-                'codigo' => strval($e->getCode()),
-                'error' => $e->getMessage(),
-            ];
-            echo json_encode($respuesta);
+            if($e->getCode()==23000){
+                $respuesta = [
+                    'codigo' => '10',
+                    'error' =>'El artista ya existe en la base de datos'
+                ];
+                echo json_encode($respuesta);
+                
+            } else {
+                $respuesta = [
+                    'codigo' => strval($e->getCode()),
+                    'error' => $e->getMessage(),
+                ];
+                echo json_encode($respuesta);
+            }
         }
 
         return true;
@@ -77,7 +87,7 @@ class ArtistaController implements iController
                 echo json_encode($respuesta);
                 return false;
             }
-            $artistas = new Album();
+            $artistas = new Artista();
             $artistas->setExclude('peticion');
             $artistas->Update($_POST);
             $respuesta = [
@@ -102,14 +112,15 @@ class ArtistaController implements iController
     public static function borrar(): bool
     {
         try {
-            $albums = new Album();
-            $albums->setExclude('peticion');
-            $albums->Destroy($_POST['idalbum']);
-            echo json_encode($albums->FindAll());
+            $artista = new Artista();
+            $artista->setExclude('peticion');
+            $artista->Destroy($_POST['idalbum']);
+            echo json_encode($artista->FindAll());
             $respuesta = [
                 'codigo' => '00',
                 'respuesta' => 'Baja efectuada',
             ];
+        
             echo json_encode($respuesta);
             return true;
         } catch (Exception $e) {
@@ -117,10 +128,10 @@ class ArtistaController implements iController
                 'codigo' => strval($e->getCode()),
                 'error' => $e->getMessage(),
             ];
+        
             echo json_encode($respuesta);
             return false;
         }
-
         return true;
     }
 
@@ -148,6 +159,7 @@ class ArtistaController implements iController
                 'codigo' => '11',
                 'errores' => $errores,
             ];
+        
             return $errores;
         }
         return $errores;

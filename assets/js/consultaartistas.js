@@ -1,11 +1,11 @@
 const consultaArtistas=async ()=>{
-    alert("consulta Artistas")
+
     const url = '../servicios/artistascontroller.php'
     const tabla=document.querySelector('#listaartistas')
    
     
     const datos=new FormData();
-    datos.append('peticion', 'T')
+    datos.append('peticion', 'C')
 
     let param = {
         method: 'POST', 
@@ -19,7 +19,7 @@ const consultaArtistas=async ()=>{
     
 
     tabla.innerHTML="";
-    response.forEach(e => {
+    response.datos.forEach(e => {
         let fila = tabla.insertRow();
         fila.insertCell().innerHTML = e.nombre;
         fila.insertCell().innerHTML = e.nacionalidad;

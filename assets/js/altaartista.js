@@ -1,11 +1,11 @@
-alert("alta")
+
 
 
 
 const altaArtista=async ()=>{
     const nombre = document.querySelector('#nombre').value.trim()
-    const nacionalidad = document.querySelector('#nacionaliad').value.trim()
-
+    const nacionalidad = document.querySelector('#nacionalidad').value.trim()
+    const error = document.querySelector('#error')
     const datos = new FormData()
     datos.append('peticion', 'A') // tipo de petición (A = alta)
     datos.append('nombre', nombre) // nombre del artista
@@ -16,7 +16,7 @@ const altaArtista=async ()=>{
         body: datos
         }
 
-        const url='servicios/controllers/artistacontroller.php'
+        const url='servicios/artistascontroller.php'
         const data=await fetch(url,parametros)    
         .then(await function(resp) {
         
@@ -38,11 +38,11 @@ const altaArtista=async ()=>{
                     document.querySelector('#baja').setAttribute('disabled', true)
                     break;
                 case '10':
-                    error.innerHTML="El nif ya existe en la base de datos";
+                    error.innerHTML="EL artista ya existe en la base de datos";
                     break;
                 case '11':
                     error.innerHTML="";
-                    for(x of mensaje.errors){
+                    for(x of mensaje.errores){
                         error.innerHTML+=`<div>${x}</div>`
                     }
                     break;
