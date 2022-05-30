@@ -1,3 +1,3 @@
 
 document.querySelector('#alta').onclick = altaArtista
-consultaArtistas();
+consultaArtistas("T");

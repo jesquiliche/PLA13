@@ -1,28 +1,45 @@
-const consultaArtistas=async ()=>{
+const consultaArtistas=async (tipo,id=0)=>{
 
-    const url = '../servicios/artistascontroller.php'
-    const tabla=document.querySelector('#listaartistas')
-   
     
-    const datos=new FormData();
-    datos.append('peticion', 'C')
+    if (tipo=='T') {
+        const url = '../servicios/artistascontroller.php'
+        const tabla=document.querySelector('#listaartistas')
+        const datos=new FormData();
+        datos.append('peticion', 'T')
+       
+    
+        let param = {
+            method: 'POST', 
+            body: datos
+        }
+       
+        const data=await fetch(url, param)
+        
+        const response=await data.json()
+        console.log(response)
+        
+    
+        tabla.innerHTML="";
+        let html="";
+        response.datos.forEach(e => {
+            html+="<tr data-id="+e.idartista+">"
+            html+="<td>"+e.nombre+"</td>"
+            html+="<td>"+e.nacionalidad+"</td>"
+            html+="</tr>"
+        });
+        tabla.innerHTML=html;
+    }
+    if(tipo=="F"){
 
-    let param = {
-        method: 'POST', 
-        body: datos
+        alert("eNTRO");
     }
    
-    const data=await fetch(url, param)
-    
-    const response=await data.json()
-    console.log(response)
-    
+}
 
-    tabla.innerHTML="";
-    response.datos.forEach(e => {
-        let fila = tabla.insertRow();
-        fila.insertCell().innerHTML = e.nombre;
-        fila.insertCell().innerHTML = e.nacionalidad;
-    });
+document.querySelector('table#listaartistas').onclick = function(event) {
 
+    if (event.target.nodeName.toUpperCase()=='TD') {
+    let id = event.target.closest('tr').getAttribute('data-id')
+    consultaArtistas('F', id);
+    }
 }

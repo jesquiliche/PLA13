@@ -8,14 +8,18 @@ class ArtistaController implements iController
     {
         try {
             $artista = new Artista();
-            $datos = $artista->FindAll();
-            $respuesta = [
-                'codigo' => '00',
-                'datos' => $datos,
-            ];
-        
-            echo json_encode($respuesta);
-            return true;
+            if($_POST['peticion']=="T"){
+                $datos = $artista->FindAll();
+                $respuesta = [
+                    'codigo' => '00',
+                    'datos' => $datos,
+                ];
+            
+                echo json_encode($respuesta);
+                return true;
+
+            }
+           
 
         } catch (Exception $e) {
             $respuesta = [
@@ -28,6 +32,36 @@ class ArtistaController implements iController
         }
 
     }
+
+    public static function consultaById($id): bool
+    {
+        try {
+            $artista = new Artista();
+            
+            $datos = $artista->FindById($id);
+            $respuesta = [
+                'codigo' => '00',
+                'datos' => $datos,
+            ];
+        
+            echo json_encode($respuesta);
+            return true;
+
+            
+           
+
+        } catch (Exception $e) {
+            $respuesta = [
+                'codigo' => strval($e->getCode()),
+                'error' => $e->getMessage(),
+            ];
+            
+            echo json_encode($respuesta);
+
+        }
+
+    }
+
 
     public static function alta($datos): bool
     {
@@ -172,6 +206,9 @@ try {
     switch ($_POST['peticion']) {
 
         case 'C':
+            ArtistaController::consultaById($_POST);
+            break;
+        case 'T':
             ArtistaController::consulta($_POST);
             break;
         case 'A':

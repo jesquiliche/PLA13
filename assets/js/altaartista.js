@@ -1,7 +1,3 @@
-
-
-
-
 const altaArtista=async ()=>{
     const nombre = document.querySelector('#nombre').value.trim()
     const nacionalidad = document.querySelector('#nacionalidad').value.trim()
@@ -27,7 +23,6 @@ const altaArtista=async ()=>{
                 throw("La petición no se ha podido realizar")
             }
         })
-        //recoger el mensaje del servidor para informar el pais
         .then(mensaje=> {
             error.innerHTML="";
             console.log(mensaje)
