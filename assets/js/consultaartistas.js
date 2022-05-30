@@ -50,6 +50,7 @@ const consultaArtistas=async (tipo,id=0)=>{
         document.getElementById("idartista").value=response.datos.idartista;
         document.getElementById("nombre").value=response.datos.nombre;
         document.getElementById("nacionalidad").value=response.datos.nacionalidad;
+        document.getElementById("modificar").disabled = false;
     }
    
 }
