@@ -47,6 +47,7 @@ const consultaArtistas=async (tipo,id=0)=>{
         
         const response=await data.json()
         console.log(response)
+        document.getElementById("idartista").value=response.datos.idartista;
         document.getElementById("nombre").value=response.datos.nombre;
         document.getElementById("nacionalidad").value=response.datos.nacionalidad;
     }
