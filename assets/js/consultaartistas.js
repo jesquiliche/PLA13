@@ -31,7 +31,24 @@ const consultaArtistas=async (tipo,id=0)=>{
     }
     if(tipo=="F"){
 
-        alert("eNTRO");
+        const url = '../servicios/artistascontroller.php'
+       
+        const datos=new FormData();
+        datos.append('peticion', 'C')
+        datos.append('idartista', id)
+       
+    
+        let param = {
+            method: 'POST', 
+            body: datos
+        }
+       
+        const data=await fetch(url, param)
+        
+        const response=await data.json()
+        console.log(response)
+        document.getElementById("nombre").value=response.datos.nombre;
+        document.getElementById("nacionalidad").value=response.datos.nacionalidad;
     }
    
 }

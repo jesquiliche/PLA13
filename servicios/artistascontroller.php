@@ -206,7 +206,7 @@ try {
     switch ($_POST['peticion']) {
 
         case 'C':
-            ArtistaController::consultaById($_POST);
+            ArtistaController::consultaById($_POST['idartista']);
             break;
         case 'T':
             ArtistaController::consulta($_POST);
