@@ -148,8 +148,7 @@ class ArtistaController implements iController
         try {
             $artista = new Artista();
             $artista->setExclude('peticion');
-            $artista->Destroy($_POST['idalbum']);
-            echo json_encode($artista->FindAll());
+            $artista->Destroy($_POST['idartista']);
             $respuesta = [
                 'codigo' => '00',
                 'respuesta' => 'Baja efectuada',
