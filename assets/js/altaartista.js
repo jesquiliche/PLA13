@@ -25,24 +25,28 @@ const altaArtista=async ()=>{
         })
         .then(mensaje=> {
             error.innerHTML="";
-            console.log(mensaje)
             switch(mensaje.codigo){
                 case '00':
                     document.querySelector('#formulario').reset();
                     document.querySelector('#modificar').setAttribute('disabled', true)
                     document.querySelector('#baja').setAttribute('disabled', true)
+                    alert("Artista dado de altar")
                     break;
                 case '10':
                     error.innerHTML="EL artista ya existe en la base de datos";
+                    alert("El artista ya exist en la base de datos")
                     break;
                 case '11':
+                    console.log(mensaje)
+
                     error.innerHTML="";
-                    for(x of mensaje.errores){
-                        error.innerHTML+=`<div>${x}</div>`
-                    }
+                   
+                    alert("Los datos son obligarios")
                     break;
                  case '12':
-                    error.innerHTML="El nif ya existe en la base de datos";
+                    error.innerHTML="El artista ya existe en la base de datos";
+                    alert("El artista ya existe en la base de datos")
+
                     break;
     
             }
