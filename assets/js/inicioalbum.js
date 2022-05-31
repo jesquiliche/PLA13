@@ -1,0 +1,2 @@
+consultaGenero()
+consultaAlbum()

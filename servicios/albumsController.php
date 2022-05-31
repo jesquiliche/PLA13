@@ -16,7 +16,7 @@ class AlbumController implements iController
                 'codigo' => '00',
                 'datos' => $datos,
             ];
-            header(':', true, 400);
+       //     header(':', true, 400);
             echo json_encode($respuesta);
             return true;
 
