@@ -37,18 +37,22 @@ const modificarArtista=async ()=>{
                     document.querySelector('#baja').setAttribute('disabled', true)
                     alert("Modificación efectuada con exito")
                     error.innerHTML="Modificación efectuada con exito ";
+                    alert("Modificación efectuada con existo")
                     break;
                 case '10':
                     error.innerHTML="EL artista ya existe en la base de datos";
+                    alert("El artista ya existe en la base de datos")
                     break;
                 case '11':
                     error.innerHTML="";
                     for(x of mensaje.errores){
                         error.innerHTML+=`<div>${x}</div>`
                     }
+                    alert("Los datos son obligatorios")
                     break;
                  case '12':
                     error.innerHTML="El nif ya existe en la base de datos";
+                    alert("El nif ya existe en la base datos")
                     break;
     
             }

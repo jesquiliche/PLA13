@@ -27,7 +27,6 @@ const bajaArtista=async ()=>{
         })
         .then(mensaje=> {
             error.innerHTML="";
-            alert(mensaje.codigo)
             switch(mensaje.codigo){
                 case '00':
                     document.querySelector('#formulario').reset();
@@ -37,19 +36,6 @@ const bajaArtista=async ()=>{
                     consultaArtistas("T");
                     error.innerHTML="Baja efectuada con exito ";
                     break;
-                case '10':
-                    error.innerHTML="EL artista ya existe en la base de datos";
-                    break;
-                case '11':
-                    error.innerHTML="";
-                    for(x of mensaje.errores){
-                        error.innerHTML+=`<div>${x}</div>`
-                    }
-                    break;
-                 case '12':
-                    error.innerHTML="El nif ya existe en la base de datos";
-                    break;
-    
             }
            
         })
