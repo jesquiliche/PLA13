@@ -18,7 +18,6 @@ const consultaAlbum=async (id=0)=>{
     const response=await data.json()
     console.log(response)
     
-    alert("consulta albums")
 
     tabla.innerHTML="";
     let html="";

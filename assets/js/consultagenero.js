@@ -16,9 +16,6 @@ const consultaGenero=async (tipo,id=0)=>{
     const data=await fetch(url, param)
     
     const response=await data.json()
-    console.log(response)
-    
-    alert("consulta genero")
 
     let html="";
     generos=document.getElementById("genero")

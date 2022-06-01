@@ -28,6 +28,13 @@ const consultaArtistas=async (tipo,id=0)=>{
             html+="</tr>"
         });
         tabla.innerHTML=html;
+        document.querySelector('table#listaartistas').onclick = function(event) {
+
+            if (event.target.nodeName.toUpperCase()=='TD') {
+            let id = event.target.closest('tr').getAttribute('data-id')
+            consultaArtistas('F', id);
+            }
+        }
     }
     if(tipo=="F"){
 
@@ -53,13 +60,35 @@ const consultaArtistas=async (tipo,id=0)=>{
         document.getElementById("modificar").disabled = false;
         document.getElementById("baja").disabled = false;
     }
+    if (tipo=='C') {
+        const url = '../servicios/artistascontroller.php'
+        const cboartistas=document.querySelector('#artistas')
+        const datos=new FormData();
+        datos.append('peticion', 'T')
+       
+    
+        let param = {
+            method: 'POST', 
+            body: datos
+        }
+       
+        const data=await fetch(url, param)
+        
+        const response=await data.json()
+        console.log(response)
+        
+    
+        cboartistas.innerHTML="";
+        let html="";
+        response.datos.forEach(e => {
+            html+="<option value="+e.idartista+">"
+            html+=e.nombre+"</option>"
+          
+        });
+        cboartistas.innerHTML=html;
+    }
    
 }
 
-document.querySelector('table#listaartistas').onclick = function(event) {
 
-    if (event.target.nodeName.toUpperCase()=='TD') {
-    let id = event.target.closest('tr').getAttribute('data-id')
-    consultaArtistas('F', id);
-    }
-}
+

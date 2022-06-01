@@ -30,7 +30,8 @@ const altaArtista=async ()=>{
                     document.querySelector('#formulario').reset();
                     document.querySelector('#modificar').setAttribute('disabled', true)
                     document.querySelector('#baja').setAttribute('disabled', true)
-                    alert("Artista dado de altar")
+                    alert("Artista dado de alta")
+                    consultaArtistas('T')
                     break;
                 case '10':
                     error.innerHTML="EL artista ya existe en la base de datos";
